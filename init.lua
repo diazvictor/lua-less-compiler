@@ -36,7 +36,7 @@ local inputEdit = builder:get_object('inputEdit')
 local outputLog = builder:get_object('outputLog')
 
 local textInfo = builder:get_object('textInfo')
-textInfo.label = ""
+textInfo.label = "File Standard: 188.9 KB | ".. os.date("%d-%m-%Y %H:%M:%S") .. " "
 
 local setMinify = builder:get_object('setMinify')
 
@@ -55,6 +55,13 @@ function os.capture(cmd, raw)
 	return s
 end
 
+function inputFile:on_changed()
+	inputChoose:set_filename(inputFile:get_text())
+end
+
+function outputFile:on_changed()
+	outputChoose:set_filename(outputFile:get_text())
+end
 
 --------------------------------------------------------------------------------
 
