@@ -43,6 +43,7 @@ local setMinify = builder:get_object('setMinify')
 local compile = builder:get_object('compile')
 
 --------------------------------------------------------------------------------
+
 function os.capture(cmd, raw)
 	local f = assert(io.popen(cmd, 'r'))
 	local s = assert(f:read('*a'))
@@ -61,6 +62,14 @@ end
 
 function outputFile:on_changed()
 	outputChoose:set_filename(outputFile:get_text())
+end
+
+function inputChoose:on_file_set()
+	inputFile:set_text(inputChoose:get_filename()):gsub(" ", "\\ ")
+end
+
+function outputChoose:on_file_set()
+	outputFile:set_text(outputChoose:get_filename()):gsub(" ", "\\ ")
 end
 
 --------------------------------------------------------------------------------
