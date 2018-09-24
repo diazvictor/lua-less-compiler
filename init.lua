@@ -72,6 +72,17 @@ function outputChoose:on_file_set()
 	outputFile:set_text(outputChoose:get_filename()):gsub(" ", "\\ ")
 end
 
+function compile:on_clicked()
+	local inputText = inputFile:get_text()
+	local outputText = outputFile:get_text()
+
+	local cmd = 'lessc ' .. inputText .. ' >' .. outputText
+
+	if (inputText ~= "") and (outputText ~= "") then
+		os.execute(cmd)
+	end
+end
+
 --------------------------------------------------------------------------------
 
 function main_window:on_destroy()
