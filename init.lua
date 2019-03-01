@@ -56,6 +56,10 @@ function os.capture(cmd, raw)
 	return s
 end
 
+function inputEdit:on_clicked()
+	os.capture("$VISUAL" .. "" .. inputFile:get_text())
+end
+
 function inputFile:on_changed()
 	inputChoose:set_filename(inputFile:get_text())
 end
