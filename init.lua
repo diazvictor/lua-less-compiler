@@ -23,7 +23,7 @@ local ui = builder.objects
 local main_window = ui.main_window
 local about_window = ui.about_window
 
-local menu_help_item1 = builder:get_object('menu_help_item1')
+local menu_help_button = builder:get_object('menu_help_item1')
 local menuitem1 = builder:get_object('menuitem1')
 
 local inputFile = builder:get_object('inputFile')
@@ -88,6 +88,11 @@ function compile:on_clicked()
 end
 
 --------------------------------------------------------------------------------
+
+function menu_help_button:on_button_press_event()
+	about_window:run()
+	about_window:hide()
+end
 
 function main_window:on_destroy()
 	Gtk.main_quit()
