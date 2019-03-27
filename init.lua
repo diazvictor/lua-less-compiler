@@ -94,13 +94,25 @@ function outputChoose:on_file_set()
 end
 
 function compile:on_clicked()
-	local inputText = inputFile:get_text()
-	local outputText = outputFile:get_text()
-
-	local cmd = 'lessc ' .. inputText .. ' >' .. outputText
+	inputText = inputFile:get_text()
+	outputText = outputFile:get_text()
 
 	if (inputText ~= "") and (outputText ~= "") then
 		os.execute(cmd)
+	end
+end
+
+local check = false
+
+function setMinify:on_toggled()
+	if check == true then
+		check = false
+		cmd = 'lessc ' .. inputText .. ' >' .. outputText
+		print(cmd)
+	else
+		check = true
+		cmd = 'lessc -x ' .. inputText .. ' >' .. outputText
+		print(cmd)
 	end
 end
 
