@@ -56,8 +56,25 @@ function os.capture(cmd, raw)
 	return s
 end
 
+function file_exist(file)
+	--return (io.open(file, "r") == nil) and false or true
+	local file_found = io.open(file, "r")
+	if (file_found == nil) then
+		return false
+	end
+	return true
+end
+
 function inputEdit:on_clicked()
-	os.capture("$VISUAL" .. "" .. inputFile:get_text())
+	local _EDITOR = ""
+
+	if (file_exist("/usr/bin/geany") == true) then
+		_EDITOR = "geany"
+	elseif (file_exist("/usr/bin/textadept") == true) then
+		_EDITOR = "textadept"
+	end
+
+	os.capture(_EDITOR .. " " .. inputFile:get_text())
 end
 
 function inputFile:on_changed()
