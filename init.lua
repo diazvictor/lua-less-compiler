@@ -108,11 +108,9 @@ function setMinify:on_toggled()
 	if check == true then
 		check = false
 		cmd = 'lessc ' .. inputText .. ' >' .. outputText
-		print(cmd)
 	else
 		check = true
 		cmd = 'lessc -x ' .. inputText .. ' >' .. outputText
-		print(cmd)
 	end
 end
 
