@@ -14,5 +14,4 @@ This software require:
 - Github: https://github.com/diazvictor/
 
 ## Run
-
 Execute: init.lua
