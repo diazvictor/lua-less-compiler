@@ -20,27 +20,9 @@ local builder = Gtk.Builder()
 assert(builder:add_from_file('MainWindow.ui'), "Error el archivo no existe")
 
 local ui = builder.objects
-local main_window = ui.main_window
-local about_window = ui.about_window
 
-local menu_help_button = builder:get_object('menu_help_item1')
-local menuitem1 = builder:get_object('menuitem1')
 
-local inputFile = builder:get_object('inputFile')
-local inputChoose = builder:get_object('inputChoose')
-
-local outputFile = builder:get_object('outputFile')
-local outputChoose = builder:get_object('outputChoose')
-
-local inputEdit = builder:get_object('inputEdit')
-local outputLog = builder:get_object('outputLog')
-
-local textInfo = builder:get_object('textInfo')
-textInfo.label = "File Standard: 188.9 KB | ".. os.date("%d-%m-%Y %H:%M:%S") .. " "
-
-local setMinify = builder:get_object('setMinify')
-
-local compile = builder:get_object('compile')
+ui.textInfo.label = "File Standard: 188.9 KB | ".. os.date("%d-%m-%Y %H:%M:%S") .. " "
 
 --------------------------------------------------------------------------------
 
@@ -65,7 +47,7 @@ function file_exist(file)
 	return true
 end
 
-function inputEdit:on_clicked()
+function ui.inputEdit:on_clicked()
 	local _EDITOR = ""
 
 	if (file_exist("/usr/bin/geany") == true) then
@@ -74,28 +56,28 @@ function inputEdit:on_clicked()
 		_EDITOR = "textadept"
 	end
 
-	os.capture(_EDITOR .. " " .. inputFile:get_text())
+	os.capture(_EDITOR .. " " .. ui.inputFile:get_text())
 end
 
-function inputFile:on_changed()
-	inputChoose:set_filename(inputFile:get_text())
+function ui.inputFile:on_changed()
+	ui.inputChoose:set_filename(ui.inputFile:get_text())
 end
 
-function outputFile:on_changed()
-	outputChoose:set_filename(outputFile:get_text())
+function ui.outputFile:on_changed()
+	ui.outputChoose:set_filename(ui.outputFile:get_text())
 end
 
-function inputChoose:on_file_set()
-	inputFile:set_text(inputChoose:get_filename()):gsub(" ", "\\ ")
+function ui.inputChoose:on_file_set()
+	ui.inputFile:set_text(ui.inputChoose:get_filename()):gsub(" ", "\\ ")
 end
 
-function outputChoose:on_file_set()
-	outputFile:set_text(outputChoose:get_filename()):gsub(" ", "\\ ")
+function ui.outputChoose:on_file_set()
+	ui.outputFile:set_text(ui.outputChoose:get_filename()):gsub(" ", "\\ ")
 end
 
-function compile:on_clicked()
-	inputText = inputFile:get_text()
-	outputText = outputFile:get_text()
+function ui.compile:on_clicked()
+	inputText = ui.inputFile:get_text()
+	outputText = ui.outputFile:get_text()
 
 	if (inputText ~= "") and (outputText ~= "") then
 		os.execute(cmd)
@@ -104,7 +86,7 @@ end
 
 local check = false
 
-function setMinify:on_toggled()
+function ui.setMinify:on_toggled()
 	if check == true then
 		check = false
 		cmd = 'lessc ' .. inputText .. ' >' .. outputText
@@ -116,14 +98,14 @@ end
 
 --------------------------------------------------------------------------------
 
-function menu_help_button:on_button_press_event()
-	about_window:run()
-	about_window:hide()
+function ui.menu_help_item1:on_button_press_event()
+	ui.about_window:run()
+	ui.about_window:hide()
 end
 
-function main_window:on_destroy()
+function ui.main_window:on_destroy()
 	Gtk.main_quit()
 end
 
-main_window:show_all()
+ui.main_window:show_all()
 Gtk.main()
