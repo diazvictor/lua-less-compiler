@@ -21,8 +21,7 @@ assert(builder:add_from_file('MainWindow.ui'), "Error el archivo no existe")
 
 local ui = builder.objects
 
-
-ui.textInfo.label = "File Standard: 188.9 KB | ".. os.date("%d-%m-%Y %H:%M:%S") .. " "
+-- ui.textInfo.label = "File Standard: 188.9 KB | ".. os.date("%d-%m-%Y %H:%M:%S") .. " "
 
 --------------------------------------------------------------------------------
 
@@ -56,43 +55,34 @@ function ui.inputEdit:on_clicked()
 		_EDITOR = "textadept"
 	end
 
-	os.capture(_EDITOR .. " " .. ui.inputFile:get_text())
+	os.capture(_EDITOR .. " " .. ui.inputFile.text)
 end
 
 function ui.inputFile:on_changed()
-	ui.inputChoose:set_filename(ui.inputFile:get_text())
+	ui.inputChoose:set_filename(ui.inputFile.text)
 end
 
 function ui.outputFile:on_changed()
-	ui.outputChoose:set_filename(ui.outputFile:get_text())
+	ui.outputChoose:set_filename(ui.outputFile.text)
 end
 
 function ui.inputChoose:on_file_set()
-	ui.inputFile:set_text(ui.inputChoose:get_filename()):gsub(" ", "\\ ")
+	ui.inputFile.text = (ui.inputChoose:get_filename()):gsub(" ", "\\ ")
 end
 
 function ui.outputChoose:on_file_set()
-	ui.outputFile:set_text(ui.outputChoose:get_filename()):gsub(" ", "\\ ")
+	ui.outputFile.text = (ui.outputChoose:get_filename()):gsub(" ", "\\ ")
 end
 
 function ui.compile:on_clicked()
-	inputText = ui.inputFile:get_text()
-	outputText = ui.outputFile:get_text()
+	local cmd = 'lessc ' .. ui.inputFile.text .. ' > ' .. ui.outputFile.text
 
-	if (inputText ~= "") and (outputText ~= "") then
-		os.execute(cmd)
+	if (ui.setMinify:get_active()) then
+		cmd = 'lessc -x ' .. ui.inputFile.text .. ' > ' .. ui.outputFile.text
 	end
-end
 
-local check = false
-
-function ui.setMinify:on_toggled()
-	if check == true then
-		check = false
-		cmd = 'lessc ' .. inputText .. ' >' .. outputText
-	else
-		check = true
-		cmd = 'lessc -x ' .. inputText .. ' >' .. outputText
+	if (ui.inputFile.text ~= "" and ui.outputFile.text ~= "") then
+		os.execute(cmd)
 	end
 end
 
