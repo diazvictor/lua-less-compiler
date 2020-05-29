@@ -1,3 +1,4 @@
+#!/usr/bin/env lua
 --[[--
  @package
  @filename  init.lua
