@@ -75,10 +75,10 @@ function ui.outputChoose:on_file_set()
 end
 
 function ui.compile:on_clicked()
-	local cmd = 'lessc ' .. ui.inputFile.text .. ' > ' .. ui.outputFile.text
+	local cmd = ('lessc %s > %s'):format(ui.inputFile.text, ui.outputFile.text)
 
 	if (ui.setMinify:get_active()) then
-		cmd = 'lessc -x ' .. ui.inputFile.text .. ' > ' .. ui.outputFile.text
+		cmd = ('lessc -x %s > %s'):format(ui.inputFile.text, ui.outputFile.text)
 	end
 
 	if (ui.inputFile.text ~= "" and ui.outputFile.text ~= "") then
