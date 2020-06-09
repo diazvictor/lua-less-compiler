@@ -22,8 +22,6 @@ assert(builder:add_from_file('MainWindow.ui'), "Error el archivo no existe")
 
 local ui = builder.objects
 
--- ui.textInfo.label = "File Standard: 188.9 KB | ".. os.date("%d-%m-%Y %H:%M:%S") .. " "
-
 --------------------------------------------------------------------------------
 
 function os.capture(cmd, raw)
@@ -75,6 +73,17 @@ function ui.outputChoose:on_file_set()
 	ui.outputFile.text = (ui.outputChoose:get_filename()):gsub(" ", "\\ ")
 end
 
+function clean_textInfo(seconds)
+	seconds = seconds or 3
+	GLib.timeout_add_seconds(
+	    GLib.PRIORITY_DEFAULT, seconds,
+	    function()
+			ui.textInfo.label = ""
+			return false
+	    end
+	)
+end
+
 function ui.compile:on_clicked()
 	local cmd = ('lessc %s > %s'):format(ui.inputFile.text, ui.outputFile.text)
 
@@ -84,6 +93,9 @@ function ui.compile:on_clicked()
 
 	if (ui.inputFile.text ~= "" and ui.outputFile.text ~= "") then
 		os.execute(cmd)
+	else
+		ui.textInfo.label = "Input and Output are required"
+		clean_textInfo()
 	end
 end
 
